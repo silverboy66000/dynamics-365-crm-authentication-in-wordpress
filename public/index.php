@@ -11,6 +11,7 @@ global $product;
 $product_updated_list_settings = $wpdb->prefix . 'product_updated_list_settings';
 $product_permission_list_settings = $wpdb->prefix . 'product_permission_list_settings';
 $product_target_list_log  = $wpdb->prefix . 'product_target_list_log';
+$wp_postmeta  = $wpdb->prefix . 'postmeta';
 
 $color=null;
 $queryCategories=null;
@@ -313,7 +314,7 @@ if (isset($_GET['action']) and $_GET['action']=='update')
     <tr>
         <th style="text-align: right" scope="col">کد قفسه</th>
         <th style="text-align: right" scope="col">تصویر محصول</th>
-        <th style="text-align: right" scope="col">نامه</th>
+        <th style="text-align: right" scope="col">نام</th>
         <th style="text-align: right" scope="col">دسته</th>
         <th style="text-align: right" scope="col">قیمت</th>
         <th style="text-align: right" scope="col">انبار</th>
@@ -335,6 +336,8 @@ if (isset($_GET['action']) and $_GET['action']=='update')
         $sqlThresholdEnd = "SELECT * FROM  $product_updated_list_settings where id=2";
         $resultsThresholdEnd= $wpdb->get_row($sqlThresholdEnd);
 
+        $sql_wip_cabinet_code = "SELECT * FROM  $wp_postmeta where post_id='$id' and meta_key='_wip_cabinet_code' ";
+        $resultsSql_wip_cabinet_code= $wpdb->get_row($sql_wip_cabinet_code);
 
         if (isset($resultsTarget->color))
         {
@@ -349,15 +352,13 @@ if (isset($_GET['action']) and $_GET['action']=='update')
             $color=$resultsThresholdEnd->color;
         }
 
-        $data=(array)$product->get_meta_data()[6];
-        foreach ($data as $key=>$dataInfo) {}
         if ($_GET['brand'] and $_GET['brand']==$product->get_attributes()['pa_brand']['options'][0])
         {
-            if ($_GET['code'] and $_GET['code']!='null' and $dataInfo['value']==$_GET['code'])
+            if ($_GET['code'] and $_GET['code']!='null' and $resultsSql_wip_cabinet_code->meta_value==$_GET['code'])
             {
                 ?>
                 <tr bgcolor="<?php echo $color ?>" style="background-color: <?php echo $color ?>">
-                    <th scope="row"><?php echo $dataInfo['value']; ?></th>
+                    <th scope="row"><?php echo $resultsSql_wip_cabinet_code->meta_value; ?></th>
                     <td><?php echo woocommerce_get_product_thumbnail() ?></td>
                     <td><?php echo $product->get_name() ?></td>
                     <td><?php echo $product->get_categories(); ?></td>
@@ -373,7 +374,7 @@ if (isset($_GET['action']) and $_GET['action']=='update')
                         }
                         else
                         {
-                            if ($product->get_price()==0)
+                            if ($product->get_stock_quantity()==0)
                             {
                                 echo "ناموجود";
                             }
@@ -396,7 +397,7 @@ if (isset($_GET['action']) and $_GET['action']=='update')
                         }
                         else
                         {
-                            if ($product->get_price()==0)
+                            if ($product->get_stock_quantity()==0)
                             {
                                 echo "ناموجود";
                             }
@@ -421,7 +422,7 @@ if (isset($_GET['action']) and $_GET['action']=='update')
             {
                 ?>
                 <tr bgcolor="<?php echo $color ?>" style="background-color: <?php echo $color ?>">
-                    <th scope="row"><?php echo $dataInfo['value']; ?></th>
+                    <th scope="row"><?php echo $resultsSql_wip_cabinet_code->meta_value; ?></th>
                     <td><?php echo woocommerce_get_product_thumbnail() ?></td>
                     <td><?php echo $product->get_name() ?></td>
                     <td><?php echo $product->get_categories(); ?></td>
@@ -437,7 +438,7 @@ if (isset($_GET['action']) and $_GET['action']=='update')
                         }
                         else
                         {
-                            if ($product->get_price()==0)
+                            if ($product->get_stock_quantity()==0)
                             {
                                 echo "ناموجود";
                             }
@@ -460,13 +461,13 @@ if (isset($_GET['action']) and $_GET['action']=='update')
                         }
                         else
                         {
-                            if ($product->get_price()==0)
+                            if ($product->get_stock_quantity()==0)
                             {
                                 echo "ناموجود";
                             }
                             else
                             {
-                                echo " موجود";
+                                echo "موجود";
                             }
                         }
                         ?>
@@ -484,11 +485,11 @@ if (isset($_GET['action']) and $_GET['action']=='update')
         }
         if (!$_GET['brand'] or $_GET['brand']=='')
         {
-            if ($_GET['code'] and $_GET['code']!='null' and $dataInfo['value']==$_GET['code'])
+            if ($_GET['code'] and $_GET['code']!='null' and $resultsSql_wip_cabinet_code->meta_value==$_GET['code'])
             {
                 ?>
                 <tr bgcolor="<?php echo $color ?>" style="background-color: <?php echo $color ?>">
-                    <th scope="row"><?php echo $dataInfo['value']; ?></th>
+                    <th scope="row"><?php echo $resultsSql_wip_cabinet_code->meta_value; ?></th>
                     <td><?php echo woocommerce_get_product_thumbnail() ?></td>
                     <td><?php echo $product->get_name() ?></td>
                     <td><?php echo $product->get_categories(); ?></td>
@@ -504,7 +505,7 @@ if (isset($_GET['action']) and $_GET['action']=='update')
                         }
                         else
                         {
-                            if ($product->get_price()==0)
+                            if ($product->get_price()===0)
                             {
                                 echo "ناموجود";
                             }
@@ -527,7 +528,7 @@ if (isset($_GET['action']) and $_GET['action']=='update')
                         }
                         else
                         {
-                            if ($product->get_price()==0)
+                            if ($product->get_price()===0)
                             {
                                 echo "ناموجود";
                             }
@@ -552,7 +553,7 @@ if (isset($_GET['action']) and $_GET['action']=='update')
             {
                 ?>
                 <tr bgcolor="<?php echo $color ?>" style="background-color: <?php echo $color ?>">
-                    <th scope="row"><?php echo $dataInfo['value']; ?></th>
+                    <th scope="row"><?php echo $resultsSql_wip_cabinet_code->meta_value; ?></th>
                     <td><?php echo woocommerce_get_product_thumbnail() ?></td>
                     <td><?php echo $product->get_name() ?></td>
                     <td><?php echo $product->get_categories(); ?></td>
@@ -568,7 +569,7 @@ if (isset($_GET['action']) and $_GET['action']=='update')
                         }
                         else
                         {
-                            if ($product->get_price()==0)
+                            if ($product->get_stock_quantity()===0)
                             {
                                 echo "ناموجود";
                             }
@@ -591,7 +592,7 @@ if (isset($_GET['action']) and $_GET['action']=='update')
                         }
                         else
                         {
-                            if ($product->get_price()==0)
+                            if ($product->get_stock_quantity()===0)
                             {
                                 echo "ناموجود";
                             }
