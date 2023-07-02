@@ -13,3 +13,5 @@ S
 #.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
 ]
 -.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
+A
+admin/setting.php,8\3\83613c2a91e81b1e69f0981c18aa5f58069b06c6

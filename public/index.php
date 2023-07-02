@@ -152,12 +152,12 @@ if (isset($_GET['action']) and $_GET['action']=='update')
 }
 
 ?>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
+<!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">-->
+<link rel="stylesheet" type="text/css" href="https://buy.morabishop.ir/wp-content/plugins/product-order-management/public/asset/css/responsive.dataTables.min.css">
 
-<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" language="javascript" src="https://buy.morabishop.ir/wp-content/plugins/product-order-management/public/asset/js/jquery-3.5.1.js"></script>
 <script type="text/javascript" language="javascript" src="https://buy.morabishop.ir/wp-content/plugins/product-order-management/public/asset/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://buy.morabishop.ir/wp-content/plugins/product-order-management/public/asset/js/dataTables.responsive.min.js"></script>
 <style>
     table.dataTable.dtr-column > tbody > tr > td.dtr-control::before
     {
@@ -217,17 +217,36 @@ if (isset($_GET['action']) and $_GET['action']=='update')
                 order: [[1, 'desc']],
             }
         );
+
+        $(".updateValue").on("change", function(e) {
+            e.preventDefault();
+
+            var tr = $(this).closest("tr");
+            var childTr = tr.siblings("tr.child");
+
+            var total = $(this).val() ;
+alert(total);
+            // tr.find(".txt_no_responsive_column").val(total);
+            // tr.find(".txt_responsive_column").val(total);
+            //
+            // tr.find(".txt_no_responsive_column").attr("value", total);
+            // tr.find(".txt_responsive_column").attr("value", total);
+            //
+            // childTr.find(".txt_no_responsive_column").val(total);
+            // childTr.find(".txt_responsive_column").val(total);
+
+        });
     });
 
     function saveQ(id)
     {
         var quantity=null;
         var price =null;
-        if (document.getElementById("quantity"+id).value)
+        if (typeof(document.getElementById("quantity"+id)) != 'undefined' && document.getElementById("quantity"+id) != null)
         {
             quantity=document.getElementById("quantity"+id).value
         }
-        if (document.getElementById("price"+id).value)
+        if (typeof(document.getElementById("price"+id)) != 'undefined' && document.getElementById("price"+id) != null)
         {
             price=document.getElementById("price"+id).value;
         }
@@ -263,6 +282,12 @@ if (isset($_GET['action']) and $_GET['action']=='update')
 
         });
 
+    }
+
+    function updateValue(id)
+    {
+        var quantity=document.getElementById("quantity"+id).value
+        //alert(quantity)
     }
 </script>
 <form>
@@ -318,7 +343,7 @@ if (isset($_GET['action']) and $_GET['action']=='update')
         <th style="text-align: right" scope="col">دسته</th>
         <th style="text-align: right" scope="col">قیمت</th>
         <th style="text-align: right" scope="col">انبار</th>
-        <th style="text-align: right" scope="col">#</th>
+        <th style="text-align: right" scope="col"></th>
     </tr>
     </thead>
     <tbody>
@@ -343,14 +368,18 @@ if (isset($_GET['action']) and $_GET['action']=='update')
         {
             $color=$resultsTarget->color;
         }
+
         if (isset($resultsThreshold->color) && $product->get_stock_quantity()<=$resultsThreshold->inventory)
         {
             $color=$resultsThreshold->color;
         }
-        if (isset($resultsThresholdEnd->color) && $product->get_stock_quantity()<=$resultsThreshold->inventory)
+
+        if (isset($resultsThresholdEnd->color) && $product->get_stock_quantity()<=$resultsThresholdEnd->inventory)
         {
             $color=$resultsThresholdEnd->color;
         }
+
+
 
         if ($_GET['brand'] and $_GET['brand']==$product->get_attributes()['pa_brand']['options'][0])
         {
@@ -374,14 +403,8 @@ if (isset($_GET['action']) and $_GET['action']=='update')
                         }
                         else
                         {
-                            if ($product->get_stock_quantity()==0)
-                            {
-                                echo "ناموجود";
-                            }
-                            else
-                            {
-                                echo " موجود";
-                            }
+                            echo $product->get_price_html();
+
                         }
                         ?>
                     </td>
@@ -391,7 +414,7 @@ if (isset($_GET['action']) and $_GET['action']=='update')
                         {
                             ?>
                             <div class="row col-md-12">
-                                <input type="number" id="quantity<?php echo $product->get_id(); ?>" name="count" class="form-controller" value="<?php echo $product->get_stock_quantity() ?>">
+                                <input onchange="updateValue(quantity<?php echo $product->get_id(); ?>)" type="number" id="quantity<?php echo $product->get_id(); ?>" name="count" class="form-controller" value="<?php echo $product->get_stock_quantity() ?>">
                             </div>
                             <?
                         }
@@ -505,14 +528,8 @@ if (isset($_GET['action']) and $_GET['action']=='update')
                         }
                         else
                         {
-                            if ($product->get_price()===0)
-                            {
-                                echo "ناموجود";
-                            }
-                            else
-                            {
-                                echo " موجود";
-                            }
+                            echo $product->get_price_html();
+
                         }
                         ?>
                     </td>
@@ -567,16 +584,8 @@ if (isset($_GET['action']) and $_GET['action']=='update')
                             </div>
                             <?
                         }
-                        else
-                        {
-                            if ($product->get_stock_quantity()===0)
-                            {
-                                echo "ناموجود";
-                            }
-                            else
-                            {
-                                echo " موجود";
-                            }
+                        else {
+                            echo $product->get_price_html();
                         }
                         ?>
                     </td>
@@ -586,7 +595,7 @@ if (isset($_GET['action']) and $_GET['action']=='update')
                         {
                             ?>
                             <div class="row col-md-12">
-                                <input type="number" id="quantity<?php echo $product->get_id(); ?>" name="count" class="form-controller" value="<?php echo $product->get_stock_quantity() ?>">
+                                <input onchange="updateValue(<?php echo $product->get_id(); ?>)" type="number" id="quantity<?php echo $product->get_id(); ?>" name="count" class="form-controller" value="<?php echo $product->get_stock_quantity() ?>">
                             </div>
                             <?
                         }

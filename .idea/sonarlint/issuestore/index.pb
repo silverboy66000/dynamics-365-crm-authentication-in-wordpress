@@ -13,3 +13,5 @@ S
 admin/index.php,f\2\f2b5f437742223d88f00a5ab44f5e97a37359212
 D
 public/asset/jdf.php,b\3\b3831c670fb442ab25df84e744d7545838ec0ac5
+A
+admin/setting.php,8\3\83613c2a91e81b1e69f0981c18aa5f58069b06c6
