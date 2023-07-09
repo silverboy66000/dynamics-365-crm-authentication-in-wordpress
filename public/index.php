@@ -157,7 +157,8 @@ if (isset($_GET['action']) and $_GET['action']=='update')
 
 <script type="text/javascript" language="javascript" src="https://buy.morabishop.ir/wp-content/plugins/product-order-management/public/asset/js/jquery-3.5.1.js"></script>
 <script type="text/javascript" language="javascript" src="https://buy.morabishop.ir/wp-content/plugins/product-order-management/public/asset/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" language="javascript" src="https://buy.morabishop.ir/wp-content/plugins/product-order-management/public/asset/js/dataTables.responsive.min.js"></script>
+<!--<script type="text/javascript" language="javascript" src="https://buy.morabishop.ir/wp-content/plugins/product-order-management/public/asset/js/dataTables.responsive.min.js"></script>-->
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <style>
     table.dataTable.dtr-column > tbody > tr > td.dtr-control::before
     {
@@ -203,6 +204,41 @@ if (isset($_GET['action']) and $_GET['action']=='update')
         background: #ffd4d4;
         border: 1px solid #d9a3a3;
         border-radius: 5px;
+    }
+    @media screen and (max-width: 450px) {
+        .priority-1{
+            display:none;
+        }
+        .priority-2{
+            display:none;
+        }
+        .priority-3{
+            font-size:x-small;
+            max-width: 100px;
+        }
+        .priority-4{
+            display:none;
+        }
+        .priority-5{
+            font-size:small;
+        }
+        .priority-6{
+            font-size:small;
+        }
+        .priority-7{
+            font-size:small;
+        }
+        table td {
+            padding: 0px 0px !important;
+        }
+        .single_add_to_cart_button
+        {
+            display: none;
+        }
+        hr
+        {
+            display: none !important;
+        }
     }
 </style>
 <script>
@@ -337,13 +373,13 @@ alert(total);
 <table id="example" class="display responsive table table-bordered" style="border: 1px solid #aaa;border-radius:3px">
     <thead class="thead-light">
     <tr>
-        <th style="text-align: right" scope="col">کد قفسه</th>
-        <th style="text-align: right" scope="col">تصویر محصول</th>
-        <th style="text-align: right" scope="col">نام</th>
-        <th style="text-align: right" scope="col">دسته</th>
-        <th style="text-align: right" scope="col">قیمت</th>
-        <th style="text-align: right" scope="col">انبار</th>
-        <th style="text-align: right" scope="col"></th>
+        <th class="priority-1" style="text-align: right" scope="col">کد قفسه</th>
+        <th class="priority-2" style="text-align: right" scope="col">تصویر محصول</th>
+        <th class="priority-3" style="text-align: right" scope="col">نام</th>
+        <th class="priority-4" style="text-align: right" scope="col">دسته</th>
+        <th class="priority-5" style="text-align: right" scope="col">قیمت</th>
+        <th class="priority-6" style="text-align: right" scope="col">انبار</th>
+        <th class="priority-7" style="text-align: right" scope="col"></th>
     </tr>
     </thead>
     <tbody>
@@ -570,11 +606,11 @@ alert(total);
             {
                 ?>
                 <tr bgcolor="<?php echo $color ?>" style="background-color: <?php echo $color ?>">
-                    <th scope="row"><?php echo $resultsSql_wip_cabinet_code->meta_value; ?></th>
-                    <td><?php echo woocommerce_get_product_thumbnail() ?></td>
-                    <td><?php echo $product->get_name() ?></td>
-                    <td><?php echo $product->get_categories(); ?></td>
-                    <td>
+                    <th class="priority-1"  scope="row"><?php echo $resultsSql_wip_cabinet_code->meta_value; ?></th>
+                    <td class="priority-2" ><?php echo woocommerce_get_product_thumbnail() ?></td>
+                    <td class="priority-3" ><?php echo $product->get_name() ?></td>
+                    <td class="priority-4" ><?php echo $product->get_categories(); ?></td>
+                    <td class="priority-5" >
                         <?php
                         if (isset($resultsPricePermission->userRoleId) and $resultsPricePermission->userRoleId==ucfirst($user->roles[0]) or $resultsPricePermission->userRoleId=='All')
                         {
@@ -589,7 +625,7 @@ alert(total);
                         }
                         ?>
                     </td>
-                    <td>
+                    <td class="priority-6" >
                         <?php
                         if (isset($resultsQuantityPermission->userRoleId) and $resultsQuantityPermission->userRoleId==ucfirst($user->roles[0]) or $resultsQuantityPermission->userRoleId=='All')
                         {
@@ -612,7 +648,7 @@ alert(total);
                         }
                         ?>
                     </td>
-                    <td>
+                    <td class="priority-7" >
                         <button style="width: 100%;background-color: #3498db" id="submit<?php echo $product->get_id(); ?>" onclick="saveQ(<? echo $product->get_id()?>)" type="submit" class="form-controller">ذخیره</button>
                         <div id="loader<?php echo $product->get_id(); ?>" class="loader" style="display: none">
                         </div>
