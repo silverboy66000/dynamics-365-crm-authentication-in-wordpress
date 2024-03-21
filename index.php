@@ -3,7 +3,7 @@
 Plugin Name: noyan crm auth
 Plugin URI: https://abolfazsamiei.ir
 Description: مدیریت دسترسی به برنامه سی ار ام [noyan_crm_management_shortcode]
-Version: 1.0
+Version: 1.2
 Author: ابوالفضل سمیعی
 Author URI: https://abolfazlsamiei.ir
 License: MIT
