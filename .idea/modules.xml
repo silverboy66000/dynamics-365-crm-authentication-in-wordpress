@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/product-list-management.iml" filepath="$PROJECT_DIR$/.idea/product-list-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/noyan-crm-auth.iml" filepath="$PROJECT_DIR$/.idea/noyan-crm-auth.iml" />
     </modules>
   </component>
 </project>
